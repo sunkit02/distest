@@ -1,0 +1,12 @@
+[package]
+name = "distest"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.86"
+clap = { version = "4.5.9", features = ["derive"] }
+config = "0.14.0"
+google_maps = "3.5.3"
+serde = "1.0.204"
+tokio = { version = "1.38.1", features = ["full"] }

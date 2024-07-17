@@ -1,6 +1,14 @@
 use anyhow::anyhow;
 use google_maps::{distance_matrix::response::element_status::ElementStatus, prelude::*};
+use serde::{Deserialize, Serialize};
 
+#[derive(Debug, Deserialize, Serialize, Hash, PartialEq, Eq, Clone)]
+pub struct DistanceQuery {
+    pub from: String,
+    pub dest: String,
+}
+
+#[derive(Debug, Deserialize, Serialize, Hash, PartialEq, Eq, Clone)]
 pub struct DistanceResponse {
     pub distance_meters: Option<u32>,
     pub distance_text: Option<String>,
@@ -9,8 +17,7 @@ pub struct DistanceResponse {
 }
 
 pub async fn fetch_distance(
-    from: &str,
-    dest: &str,
+    DistanceQuery { from, dest }: &DistanceQuery,
     api_key: &str,
 ) -> anyhow::Result<DistanceResponse> {
     let google_maps_client = GoogleMapsClient::try_new(api_key).unwrap();
@@ -28,8 +35,8 @@ pub async fn fetch_distance(
     if !matches!(distance_matrix.status, DistanceMatrixStatus::Ok) {
         return Err(anyhow!(
             "an error occurred when fetching the distance between {} and {}: {}",
-            from,
-            dest,
+            &from,
+            &dest,
             distance_matrix.status
         ));
     }

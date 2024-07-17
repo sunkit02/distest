@@ -3,10 +3,7 @@ use std::{env, fs, path::PathBuf};
 use anyhow::Context;
 use clap::{command, Parser};
 
-use crate::configs::Configs;
-
-const CONFIG_DIR: &str = ".config";
-const APP_NAME: &str = env!("CARGO_PKG_NAME");
+use crate::configs::{Configs, APP_NAME, DEFAULT_CONFIG_PATH};
 
 #[derive(Debug, Parser)]
 #[command(version, about, long_about=None)]
@@ -47,10 +44,10 @@ impl TryFrom<RawArgs> for CliArgs {
             let user = env::var("USER")?;
 
             // Get configs
-            let config_path = format!("/home/{user}/{CONFIG_DIR}/{APP_NAME}/configs.toml");
+            let config_path = format!("/home/{user}/{DEFAULT_CONFIG_PATH}/{APP_NAME}/configs.toml");
             let configs = Configs::new(&config_path).context("failed to build configs")?;
 
-            configs.api_key_path
+            configs.api_key_path.context("no api key specified")?
         };
 
         let api_key = fs::read_to_string(api_key_path).context("failed to read api key")?;

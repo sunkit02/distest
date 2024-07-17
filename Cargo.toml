@@ -8,5 +8,6 @@ anyhow = "1.0.86"
 clap = { version = "4.5.9", features = ["derive"] }
 config = "0.14.0"
 google_maps = "3.5.3"
+ron = "0.8.1"
 serde = "1.0.204"
 tokio = { version = "1.38.1", features = ["full"] }

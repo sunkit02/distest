@@ -11,7 +11,7 @@ const APP_NAME: &str = env!("CARGO_PKG_NAME");
 #[derive(Debug, Parser)]
 #[command(version, about, long_about=None)]
 pub struct RawArgs {
-    /// Address to start the estimation from
+    /// Address to start the calculations from
     #[arg(short, long)]
     from: String,
 
@@ -27,7 +27,7 @@ pub struct RawArgs {
 #[derive(Debug)]
 pub struct CliArgs {
     pub from: String,
-    pub destination: String,
+    pub dest: String,
     pub api_key: String,
 }
 
@@ -57,7 +57,7 @@ impl TryFrom<RawArgs> for CliArgs {
 
         Ok(Self {
             from,
-            destination,
+            dest: destination,
             api_key,
         })
     }
